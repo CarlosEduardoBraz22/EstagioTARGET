@@ -25,3 +25,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+OBS: Salve o código Python em um arquivo, por exemplo, percentuais_estado.py
+Execute o programa com o comando: python percentuais_estado.py
