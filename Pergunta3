@@ -1,0 +1,55 @@
+JSON:
+{
+    "faturamento_diario": {
+        "2024-09-01": 1000,
+        "2024-09-02": 1500,
+        "2024-09-03": 2000,
+        "2024-09-04": 0,
+        "2024-09-05": 1800,
+        "2024-09-06": 0,
+        "2024-09-07": 2200,
+        "2024-09-08": 1600
+        // mais dados...
+    }
+}
+
+Python:
+
+import json
+
+def calcular_faturamento(filename):
+    with open(filename, 'r') as file:
+        dados = json.load(file)
+    
+    faturamento_diario = dados['faturamento_diario']
+    
+    # Remove dias sem faturamento
+    faturamentos = [valor for valor in faturamento_diario.values() if valor > 0]
+    
+    if not faturamentos:
+        return "Não há dados de faturamento para calcular."
+
+    menor_faturamento = min(faturamentos)
+    maior_faturamento = max(faturamentos)
+    media_mensal = sum(faturamentos) / len(faturamentos)
+    
+    dias_acima_da_media = len([valor for valor in faturamentos if valor > media_mensal])
+    
+    return {
+        "menor_faturamento": menor_faturamento,
+        "maior_faturamento": maior_faturamento,
+        "dias_acima_da_media": dias_acima_da_media
+    }
+
+def main():
+    resultado = calcular_faturamento('faturamento.json')
+    
+    if isinstance(resultado, dict):
+        print(f"Menor valor de faturamento: R${resultado['menor_faturamento']:.2f}")
+        print(f"Maior valor de faturamento: R${resultado['maior_faturamento']:.2f}")
+        print(f"Número de dias com faturamento superior à média mensal: {resultado['dias_acima_da_media']}")
+    else:
+        print(resultado)
+
+if __name__ == "__main__":
+    main()
